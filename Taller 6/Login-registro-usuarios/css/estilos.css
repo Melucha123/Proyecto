@@ -52,6 +52,7 @@ a:hover {
   text-align: center;
   cursor: pointer;
   transition: 0.5s ease;
+  display: false;
 }
 .contenedor-tabs li a:hover {
   background: #5fd15f;

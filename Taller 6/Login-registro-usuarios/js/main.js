@@ -9,17 +9,31 @@ $(document).ready(function() {
 			} else {
 				label.addClass("active highlight");
 			}
-		} else if (e.type === "blur") {
-			if ($this.val() === "") {
-				label.removeClass("active highlight");
-			} else {
+		} 
+		else 
+		{
+			if (e.type === "blur") {
+				if ($this.val() === "") {
+					label.removeClass("active highlight");
+				} 
+				else {
 				label.removeClass("highlight");
-			}
-		} else if (e.type === "focus") {
-			if ($this.val() === "") {
-				label.removeClass("highlight");
-			} else if ($this.val() !== "") {
-				label.addClass("highlight");
+				}
+			} 
+			else
+			{
+					if (e.type === "focus") {
+						if ($this.val() === "") {
+							label.removeClass("highlight");
+						}
+					}	
+					else
+					{
+						if ($this.val() !== "") {
+							label.addClass("highlight");
+						}
+					}
+				
 			}
 		}
 	});
