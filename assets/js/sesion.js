@@ -1,13 +1,42 @@
 new Vue({
 	el:".divlogin",
 	data:{
+		type: 0, //0 = login, 1 = registro
 		form:{
 			email:"",
 			password:""
+		},
+		reg:{
+			nombres:"",
+			apellidos:"",
+			tipodocument:"",
+			lugarnaci:"",
+			email:"",
+			telefono:"",
+			usuario:"",
+			password:"",
+			password1:"",
+			lugarresi:""
+
 		}
 	},
 	methods:{
 		SendF(){
+			if(this.validacionemail == false){
+				if(this.validacionpass == false){
+					console.log(this.form)
+				}
+				else{
+					alert("Por favor coloque una contraseña valida")
+				}
+			}
+			else{
+				alert("Por favor coloque un email valido")
+			}
+		
+		},
+		SendR(){
+				console.log(this.reg)
 		}
 	},
 	computed:{
@@ -27,6 +56,21 @@ new Vue({
 			else{
 				return true;
 			}
+		},
+		Repetir(){
+			if(this.form.password==this.form.password1){
+				return false;	
+			}
+			else{
+				return true;
+			}
+		},
+		title(){
+			return(this.type == 0)?'Ingreso':'Registro';
+		},
+		iniciar(){
+			return(this.type == 0)?'Iniciar Sesion':'Registrarme';
 		}
+
 	}
 });

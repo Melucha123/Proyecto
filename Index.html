@@ -11,11 +11,20 @@
 	<div class="divlogin">
 		<div class="container">
 			<div class="divcont">
-				<h3>Ingreso</h3>
-				<form @submit.prevent="SendF()">
+				<h3>{{ title }}</h3>
+				<form v-if="type == 0" @submit.prevent="SendF()">
 					<input type="email" :class="{'error':validacionemail}" placeholder="Email" v-model="form.email">
-					<input type="password" :class="{'error':validacionpass}" placeholder="Contraseña" v-model="form.password">
-					<button>Iniciar Sesión</button>
+					<input type="password":class="{'error':validacionpass}" placeholder="Contraseña" v-model="form.password">
+					<button> {{ iniciar }}</button>
+					<a href="javascript:void(0)" @click="type=1">Registrarme</a>
+				</form>
+				<form v-else @submit.prevent="SendR()">
+					<input type="nombres" placeholder="Nombres">
+					<input type="email" :class="{'error':validacionemail}" placeholder="Email" v-model="form.email">
+					<input type="password":class="{'error':validacionpass}" placeholder="Contraseña" v-model="form.password">
+					<input type="password":class="{'error':Repetir}" placeholder="Repetir Contraseña" v-model="form.password1">
+					<button> {{ iniciar }}</button>
+					<a href="javascript:void(0)" @click="type=0">Iniciar Sesion</a>
 				</form>
 			</div>
 		</div>
