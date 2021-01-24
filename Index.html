@@ -3,13 +3,24 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="vue.js"></script>
-	<link rel="stylesheet" href="Front.css">
-	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
-	<title>Integrantes</title>
-	<h1>Registro de usuarios</h1>
+	<title>Taller 8</title>
+	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="shortcut icon" type="image/x-icon" href="assets/images/icon.ico">
 </head>
 <body>
-	
+	<div class="divlogin">
+		<div class="container">
+			<div class="divcont">
+				<h3>Ingreso</h3>
+				<form @submit.prevent="SendF()">
+					<input type="email" :class="{'error':validacionemail}" placeholder="Email" v-model="form.email">
+					<input type="password" :class="{'error':validacionpass}" placeholder="Contraseña" v-model="form.password">
+					<button>Iniciar Sesión</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src="assets/js/vue.js"></script>
+	<script src="assets/js/sesion.js"></script>
 </body>
 </html>
