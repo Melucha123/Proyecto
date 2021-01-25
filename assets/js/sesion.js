@@ -68,11 +68,23 @@ var db = firebase.firestore();
 			console.log(this.form)
 		},
 		SendR(){
+			var tis = this;
 			if(this.validall()){
 				console.log(this.reg);
 				if(this.type!=0){
 					this.register(this.reg).then(function(userData){
 						console.log(userData);
+						var user={
+							email:tis.reg.email,
+							id:userData.user.uid,
+							nombres: tis.reg.nombres,
+							apellidos: tis.reg.apellidos,
+							TipoDocumento: tis.reg.tipodocumento,
+							Documento: tis.reg.documento
+						};
+						db.collection('users').doc(userData.user.uid).set(user).then(function(){
+							console.log("Guardada")
+						})
 					}).catch(function(error){
 						alert(error.message);
 					})
