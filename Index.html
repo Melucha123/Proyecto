@@ -19,16 +19,32 @@
 					<a href="javascript:void(0)" @click="type=1">Registrarme</a>
 				</form>
 				<form v-else @submit.prevent="SendR()">
-					<input type="nombres" placeholder="Nombres">
-					<input type="email" :class="{'error':validacionemail}" placeholder="Email" v-model="form.email">
-					<input type="password":class="{'error':validacionpass}" placeholder="Contraseña" v-model="form.password">
-					<input type="password":class="{'error':Repetir}" placeholder="Repetir Contraseña" v-model="form.password1">
+					<input type="text":class="{'error': VNombres}"  placeholder="Nombres" v-model="reg.nombres">
+					<input type="text":class="{'error': VApellidos}"  placeholder="Apellidos" v-model="reg.apellidos">
+					<h4>Tipo de documento</h4>
+					<select type="text" v-model="reg.tipodocumento" required>
+						<option value="CC">Cedula de ciudadania</option>
+						<option value="TI">Tarjeta de identidad</option>
+						<option value="CE">Cedula extranjera</option>
+						<option value="RC">Registro civil</option>
+					</select>
+					<input type="text":class="{'error': Vdoc}" placeholder="Numero de documento" v-model="reg.documento">
+					<input type="text":class="{'error': Vlugar}" placeholder="Lugar de nacimiento" v-model="reg.lugarnacimiento">
+					<h4>Fecha de nacimiento</h4>
+					<input type="date" placeholder="Fecha de nacimiento" v-model="reg.fechanacimiento" required>
+					<input type="email" :class="{'error':validacionemail1}" placeholder="Email" v-model="reg.email">
+					<input type="tel" placeholder="Numero de telefono" pattern="[0-9]{10}" required v-model="reg.telefono">
+					<input type="text" :class="{'error':Vusuario}"placeholder="Usuario" v-model="reg.usuario">
+					<input type="password":class="{'error':validacionpass1}" placeholder="Contraseña" v-model="reg.password">
+					<input type="password":class="{'error':Repetir1}" placeholder="Repetir Contraseña" v-model="reg.password1">
+					<input type="text" :class="{'error':Vlugarr}" placeholder="Lugar de recidencia" v-model="reg.lugaresidencia">
 					<button> {{ iniciar }}</button>
 					<a href="javascript:void(0)" @click="type=0">Iniciar Sesion</a>
 				</form>
 			</div>
 		</div>
 	</div>
+	 <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
 	<script src="assets/js/vue.js"></script>
 	<script src="assets/js/sesion.js"></script>
 </body>

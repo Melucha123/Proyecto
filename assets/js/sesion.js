@@ -1,6 +1,23 @@
-new Vue({
+var firebaseConfig = {
+    apiKey: "AIzaSyC7P1bJFrIizdvVgL9dNHVFc2OVKtjO7tc",
+    authDomain: "taller-8-75077.firebaseapp.com",
+    databaseURL: "https://taller-8-75077-default-rtdb.firebaseio.com",
+    projectId: "taller-8-75077",
+    storageBucket: "taller-8-75077.appspot.com",
+    messagingSenderId: "986036997861",
+    appId: "1:986036997861:web:0d4e4887e0bc44448bce0c",
+    measurementId: "G-PQEZZXTXKF"
+};
+firebase.initializeApp(firebaseConfig);
+
+var auth = firebase.auth();
+
+var db = firebase.firestore();
+
+ new Vue({
 	el:".divlogin",
 	data:{
+		selected: '',
 		type: 0, //0 = login, 1 = registro
 		form:{
 			email:"",
@@ -9,34 +26,67 @@ new Vue({
 		reg:{
 			nombres:"",
 			apellidos:"",
-			tipodocument:"",
-			lugarnaci:"",
+			tipodocumento:"",
+			documento:"",
+			lugarnacimiento:"",
+			fechanacimiento:"",
 			email:"",
 			telefono:"",
 			usuario:"",
 			password:"",
 			password1:"",
-			lugarresi:""
-
+			lugaresidencia:""
 		}
 	},
-	methods:{
-		SendF(){
-			if(this.validacionemail == false){
-				if(this.validacionpass == false){
-					console.log(this.form)
-				}
-				else{
-					alert("Por favor coloque una contraseña valida")
-				}
+	created(){
+		this.state(function(data){
+			if(!data){
+				console.log("falta inciar sesion");
 			}
 			else{
-				alert("Por favor coloque un email valido")
+				console.log("se inicio sesion");
 			}
-		
+		})
+	},
+	methods:{
+		state(collback){
+            auth.onAuthStateChanged(function(user){
+                collback(user);
+            })
+        },
+        register(data){
+            return auth.createUserWithEmailAndPassword(data.email, data.password);
+        },
+        login(data){
+            return auth.signInWithEmailAndPassword(data.email, data.password);
+        },
+        logout(){
+            auth.signOut();
+        },
+
+		SendF(){
+			console.log(this.form)
 		},
 		SendR(){
-				console.log(this.reg)
+			if(this.validall()){
+				console.log(this.reg);
+				if(this.type!=0){
+					this.register(this.reg).then(function(userData){
+						console.log(userData);
+					}).catch(function(error){
+						alert(error.message);
+					})
+				}
+			}
+			
+		},
+		validall(){
+			if(!this.validacionemail1 && !this.validacionpass1 && !this.Repetir1 && !this.VNombres && !this.VApellidos && !this.Vdoc && !this.Vlugar && !this.Vusuario && !this.Vlugarr){
+				return true;
+			}
+			else{
+				return false
+			}
 		}
 	},
 	computed:{
@@ -57,8 +107,25 @@ new Vue({
 				return true;
 			}
 		},
-		Repetir(){
-			if(this.form.password==this.form.password1){
+		validacionemail1(){
+			var exp = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+			if(exp.test(this.reg.email)){
+				return false;
+			} else{
+				return true;
+			}
+		},
+		validacionpass1(){
+			 var exp = /^(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ]/;
+            if(exp.test(this.reg.password)){
+				return false;
+			}
+			else{
+				return true;
+			}
+		},
+		Repetir1(){
+			if(this.reg.password==this.reg.password1){
 				return false;	
 			}
 			else{
@@ -70,7 +137,55 @@ new Vue({
 		},
 		iniciar(){
 			return(this.type == 0)?'Iniciar Sesion':'Registrarme';
-		}
+		},
+		VNombres(){
+			if(this.reg.nombres != ""){
+					return false;	
+			}
+			else{
+				return true;
+			}
+		},
+		VApellidos(){
+			if(this.reg.apellidos != ""){
+				return false;	
+			}
+			else{
+				return true;
+			}
+		},
+		Vdoc(){
+			if(this.reg.documento != ""){
+				return false;	
+			}
+			else{
+				return true;
+			}
+		},
+		Vlugar(){
+			if(this.reg.lugarnacimiento != ""){
+				return false;	
+			}
+			else{
+				return true;
+			}
+		},
+		Vusuario(){
+			if(this.reg.usuario != ""){
+				return false;	
+			}
+			else{
+				return true;
+			}
+		},
+		Vlugarr(){
+			if(this.reg.lugaresidencia != ""){
+				return false;	
+			}
+			else{
+				return true;
+			}
+		},
 
 	}
 });
