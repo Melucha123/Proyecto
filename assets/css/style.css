@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 html, body{padding: 0px; margin: 0px; width: 100%; height: 100vh; font-family: "Roboto"; color: #333}
+
+
 .divlogin {
 	background: url(../images/fondo.jpg) no-repeat;
 	background-size: cover;
@@ -67,10 +69,38 @@ html, body{padding: 0px; margin: 0px; width: 100%; height: 100vh; font-family: "
 	color: #fff;
 	border-radius: 5px;
 	margin-bottom: 10px;
+	cursor: pointer;
 }
 .divlogin .container .divcont a{
 	font-size: 12px;
 	margin-right: 10px;
 	color: #333;
 }
+
+.info{
+	width: 100%;	
+	text-align: center;
+	max-width: 400px;
+	width: 90%;
+	background: rgba(255,255,255,0.7);
+	padding: 20px;
+	border-radius: 10px;
+	display: inline-block;
+}
+.info ul{
+	list-style: none;
+}
+.info button{
+	margin: 0px;
+	border: 0px;
+	display: block;
+	margin: auto;
+	padding: 10px 30px;
+	background: #333;
+	color: #fff;
+	border-radius: 5px;
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+
 

@@ -17,6 +17,7 @@ var db = firebase.firestore();
  new Vue({
 	el:".divlogin",
 	data:{
+		sesion:false,
 		selected: '',
 		type: 0, //0 = login, 1 = registro
 		form:{
@@ -65,15 +66,31 @@ var db = firebase.firestore();
         },
 
 		SendF(){
-			console.log(this.form)
+			var tis = this;
+			if(this.validall1()){
+				console.log(this.form);
+				if(this.type == 0){
+					this.login(this.form).then(function(userData){
+						tis.sesion = true;
+					}).catch(function(error){
+						alert(error.message);
+					})
+				}
+			} 
+		},
+		validall1(){
+			if(!this.validacionemail && !this.validacionpass){
+				return true;
+			}
+			else{
+				return false
+			}
 		},
 		SendR(){
 			var tis = this;
-			if(this.validall()){
-				console.log(this.reg);
+			if(this.validall()){				
 				if(this.type!=0){
 					this.register(this.reg).then(function(userData){
-						console.log(userData);
 						var user={
 							email:tis.reg.email,
 							id:userData.user.uid,
@@ -83,11 +100,12 @@ var db = firebase.firestore();
 							Documento: tis.reg.documento
 						};
 						db.collection('users').doc(userData.user.uid).set(user).then(function(){
-							console.log("Guardada")
+							alert("Su registro se ha completado exitosamente");
 						})
 					}).catch(function(error){
 						alert(error.message);
-					})
+					});
+					this.type = 0;
 				}
 			}
 			

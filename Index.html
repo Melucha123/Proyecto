@@ -10,7 +10,7 @@
 <body>
 	<div class="divlogin">
 		<div class="container">
-			<div class="divcont">
+			<div class="divcont" v-if="!sesion">
 				<h3>{{ title }}</h3>
 				<form v-if="type == 0" @submit.prevent="SendF()">
 					<input type="email" :class="{'error':validacionemail}" placeholder="Email" v-model="form.email">
@@ -42,8 +42,19 @@
 					<a href="javascript:void(0)" @click="type=0">Iniciar Sesion</a>
 				</form>
 			</div>
+			<div class="info" v-if="sesion">
+				<form>
+					<ul>
+						<li>
+							Nombre - email
+						</li>
+						<button> Cerrar sesion </button>
+					</ul>
+				</form>
+			</div>
 		</div>
 	</div>
+
 	 <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
 	<script src="assets/js/vue.js"></script>
 	<script src="assets/js/sesion.js"></script>
