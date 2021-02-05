@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Taller 8</title>
 	<link rel="stylesheet" href="assets/css/style.css">
+
 	<link rel="shortcut icon" type="image/x-icon" href="assets/images/icon.ico">
+	 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 	<div class="divlogin">
@@ -43,14 +46,24 @@
 				</form>
 			</div>
 			<div class="info" v-if="sesion">
-				<form>
 					<ul>
-						<li>
-							Nombre - email
-						</li>
-						<button> Cerrar sesion </button>
+						<form>
+							{{ actualUser.nombres }}
+							<i class="material-icons">create</i>
+							<i class="material-icons">close</i>
+						</form>
+						<form>
+							{{ actualUser.apellidos }}
+							<i class="material-icons">create</i>
+							<i class="material-icons">close</i>
+						</form>
+						<form>
+							{{ actualUser.TipoDocumento }}
+							<i class="material-icons">create</i>
+							<i class="material-icons">close</i>
+						</form>
+						<button @click="logout()"> Cerrar sesion </button>
 					</ul>
-				</form>
 			</div>
 		</div>
 	</div>

@@ -14,9 +14,11 @@ var auth = firebase.auth();
 
 var db = firebase.firestore();
 
- new Vue({
+ const vue = new Vue({
 	el:".divlogin",
 	data:{
+		listUser: [],
+		actualUser: null,
 		sesion:false,
 		selected: '',
 		type: 0, //0 = login, 1 = registro
@@ -40,19 +42,32 @@ var db = firebase.firestore();
 		}
 	},
 	created(){
-		this.state(function(data){
-			if(!data){
-				console.log("falta inciar sesion");
-			}
-			else{
-				console.log("se inicio sesion");
-			}
-		})
+		this.test()
 	},
 	methods:{
-		state(collback){
+		test(){
             auth.onAuthStateChanged(function(user){
-                collback(user);
+                if(!user){
+				console.log("falta inciar sesion");
+			}
+				else{
+					this.sesion=true;
+					var actual = null;
+					var vm = this;
+					db.collection('users').onSnapshot((snap) => {
+						snap.forEach(user1 =>{
+							if(user.email == user1.data().email) {
+								actual = user1.data();
+								vue.actualUser = actual;
+								console.log(actual);
+								
+							}
+							console.log(vue.actualUser);
+						});
+					})
+					console.log("se inicio sesion");
+
+				}
             })
         },
         register(data){
@@ -63,6 +78,7 @@ var db = firebase.firestore();
         },
         logout(){
             auth.signOut();
+            this.sesion = false;
         },
 
 		SendF(){
@@ -73,7 +89,7 @@ var db = firebase.firestore();
 					this.login(this.form).then(function(userData){
 						tis.sesion = true;
 					}).catch(function(error){
-						alert(error.message);
+						alert("No coinciden las credenciales, por favor revise");
 					})
 				}
 			} 
@@ -90,17 +106,24 @@ var db = firebase.firestore();
 			var tis = this;
 			if(this.validall()){				
 				if(this.type!=0){
+					alert("Su registro se ha completado exitosamente");
 					this.register(this.reg).then(function(userData){
 						var user={
-							email:tis.reg.email,
+							email:tis.reg.email.toLowerCase(),
 							id:userData.user.uid,
 							nombres: tis.reg.nombres,
 							apellidos: tis.reg.apellidos,
 							TipoDocumento: tis.reg.tipodocumento,
-							Documento: tis.reg.documento
+							Documento: tis.reg.documento,
+							LugarDeNacimiento: tis.reg.lugarnacimiento,
+							FechaDeNacimiento: tis.reg.fechanacimiento,
+							Telefono: tis.reg.telefono,
+							Usuario: tis.reg.usuario,
+							Contraseña: tis.reg.password,
+							LugarResidencia: tis.reg.lugaresidencia
 						};
 						db.collection('users').doc(userData.user.uid).set(user).then(function(){
-							alert("Su registro se ha completado exitosamente");
+							console.log("se registro correctamente")
 						})
 					}).catch(function(error){
 						alert(error.message);
