@@ -11,7 +11,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 var auth = firebase.auth();
-
+var user = firebase.auth().currentUser;
 var db = firebase.firestore();
 
  const vue = new Vue({
@@ -23,8 +23,8 @@ var db = firebase.firestore();
 		selected: '',
 		type: 0, //0 = login, 1 = registro
 		form:{
-			email:"",
-			password:""
+			email:"rolo0828@gmail.com",
+			password:"Prens123"
 		},
 		reg:{
 			nombres:"",
@@ -59,14 +59,10 @@ var db = firebase.firestore();
 							if(user.email == user1.data().email) {
 								actual = user1.data();
 								vue.actualUser = actual;
-								console.log(actual);
 								
 							}
-							console.log(vue.actualUser);
-						});
+						})
 					})
-					console.log("se inicio sesion");
-
 				}
             })
         },
@@ -79,17 +75,19 @@ var db = firebase.firestore();
         logout(){
             auth.signOut();
             this.sesion = false;
+            swal("YEY!","Sesion cerrada", "success");
+            this.form.email = "";
+			this.form.password = "";
         },
 
 		SendF(){
 			var tis = this;
 			if(this.validall1()){
-				console.log(this.form);
 				if(this.type == 0){
 					this.login(this.form).then(function(userData){
 						tis.sesion = true;
 					}).catch(function(error){
-						alert("No coinciden las credenciales, por favor revise");
+						swal("OH NO!","No coinciden las credenciales, por favor revise","error");
 					})
 				}
 			} 
@@ -106,7 +104,6 @@ var db = firebase.firestore();
 			var tis = this;
 			if(this.validall()){				
 				if(this.type!=0){
-					alert("Su registro se ha completado exitosamente");
 					this.register(this.reg).then(function(userData){
 						var user={
 							email:tis.reg.email.toLowerCase(),
@@ -123,10 +120,11 @@ var db = firebase.firestore();
 							LugarResidencia: tis.reg.lugaresidencia
 						};
 						db.collection('users').doc(userData.user.uid).set(user).then(function(){
-							console.log("se registro correctamente")
+							swal("Buen trabajo!","Su registro se ha completado exitosamente", "success");
+
 						})
 					}).catch(function(error){
-						alert(error.message);
+						swal("Oops", "El usuario ya se encuentra registrado", "error");
 					});
 					this.type = 0;
 				}
@@ -140,6 +138,101 @@ var db = firebase.firestore();
 			else{
 				return false
 			}
+		},
+		editNom(actualUser){
+			swal({
+				text:"Nombre(s)",
+				content:"input",
+				button:{
+					text:"Editar",
+					closemodal:false
+				}
+			}).then(nombres=>{
+				if(!nombres){
+					swal("Oops!","El nombre es requerido", "error");
+					return false;
+				}
+				var data = {nombres:nombres};
+				db.collection('users').doc(actualUser.id).update(data).then(function(data){
+					swal("Bien!","Tu(s) nombre(s) a sido editado", "success");
+				})
+			})
+		},
+		editAp(actualUser){
+			swal({
+				text:"Apellidos",
+				content:"input",
+				button:{
+					text:"Editar",
+					closemodal:false
+				}
+			}).then(apellidos=>{
+				if(!apellidos){
+					swal("Oops!","Los apellidos son requeridos", "error");
+					return false;
+				}
+				var data = {apellidos:apellidos};
+				db.collection('users').doc(actualUser.id).update(data).then(function(data){
+					swal("Bien!","Tus apellidos a sido editados", "success");
+				})
+			})
+		},
+		editTd(actualUser){
+			swal({
+				text:"Tipo de Documento",
+				content:"input",
+				button:{
+					text:"Editar",
+					closemodal:false
+				}
+			}).then(TipoDocumento=>{
+				if(!TipoDocumento){
+					swal("Oops!","¿Cual es el tipo de documento?", "error");
+					return false;
+				}
+				var data = {TipoDocumento:TipoDocumento};
+				db.collection('users').doc(actualUser.id).update(data).then(function(data){
+					swal("Bien!","El tipo de documento ha sido editado", "success");
+				})
+			})
+		},
+		editD(actualUser){
+			swal({
+				text:"Numero de Documento",
+				content:"input",
+				button:{
+					text:"Editar",
+					closemodal:false
+				}
+			}).then(Documento=>{
+				if(!Documento){
+					swal("Oops!","¿Cual tu numero de documento?", "error");
+					return false;
+				}
+				var data = {Documento:Documento};
+				db.collection('users').doc(actualUser.id).update(data).then(function(data){
+					swal("Bien!","El numero de documento ha sido editado", "success");
+				})
+			})
+		},
+		deleteUser(actualUser){
+			swal({
+				title: "¿Seguro que deseas eliminar esta cuenta?",
+				text: "Esta accion es irreversible",
+				icon: "warning",
+				buttons:true,
+				dargeMode:true
+			}).then((del) => {
+				if(del){
+					var user = firebase.auth().currentUser;
+					 	user.delete().then(function() {
+						  console.log("se elimino el auth")
+						});
+					db.collection("users").doc(actualUser.id).delete();
+					this.sesion = false;
+					swal("Eliminada", "Esta cuenta se ha eliminado exitosamente", "success");
+				}
+			})
 		}
 	},
 	computed:{

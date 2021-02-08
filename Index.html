@@ -26,10 +26,10 @@
 					<input type="text":class="{'error': VApellidos}"  placeholder="Apellidos" v-model="reg.apellidos">
 					<h4>Tipo de documento</h4>
 					<select type="text" v-model="reg.tipodocumento" required>
-						<option value="CC">Cedula de ciudadania</option>
-						<option value="TI">Tarjeta de identidad</option>
-						<option value="CE">Cedula extranjera</option>
-						<option value="RC">Registro civil</option>
+						<option value="Cedula de ciudadania">Cedula de ciudadania</option>
+						<option value="Tarjeta de identidad">Tarjeta de identidad</option>
+						<option value="Cedula extranjera">Cedula extranjera</option>
+						<option value="Registro civil">Registro civil</option>
 					</select>
 					<input type="text":class="{'error': Vdoc}" placeholder="Numero de documento" v-model="reg.documento">
 					<input type="text":class="{'error': Vlugar}" placeholder="Lugar de nacimiento" v-model="reg.lugarnacimiento">
@@ -46,29 +46,67 @@
 				</form>
 			</div>
 			<div class="info" v-if="sesion">
-					<ul>
+					<h1> WELCOME!</h1>  
 						<form>
+							<h4>Nombres</h4>
 							{{ actualUser.nombres }}
-							<i class="material-icons">create</i>
-							<i class="material-icons">close</i>
+							<i class="material-icons" @click="editNom(actualUser)">create</i>
 						</form>
 						<form>
+							<h4>Apellidos</h4>
 							{{ actualUser.apellidos }}
-							<i class="material-icons">create</i>
-							<i class="material-icons">close</i>
+							<i class="material-icons" @click="editAp(actualUser)">create</i>
 						</form>
 						<form>
+							<h4>Tipo de Documento</h4>
 							{{ actualUser.TipoDocumento }}
-							<i class="material-icons">create</i>
-							<i class="material-icons">close</i>
+							<i class="material-icons" @click="editTd(actualUser)">create</i>
 						</form>
+						<form>
+							<h4>Numero de Documento</h4>
+							{{ actualUser.Documento }}
+							<i class="material-icons" @click="editD(actualUser)">create</i>
+						</form>
+						<form>
+							<h4>Lugar de Nacimiento</h4>
+							{{ actualUser.LugarDeNacimiento }}
+							<i class="material-icons">create</i>
+						</form>
+						<form>
+							<h4>Fecha de Nacimiento</h4>
+							{{ actualUser.FechaDeNacimiento }}
+							<i class="material-icons">create</i>
+						</form>
+						<form>
+							<h4>Email</h4>
+							{{ actualUser.email }}
+							<i class="material-icons">create</i>
+						</form>
+						<form>
+							<h4>Usuario</h4>
+							{{ actualUser.Usuario }}
+							<i class="material-icons">create</i>
+						</form>
+						<form>
+							<h4>Contraseña</h4>
+							{{ actualUser.Contraseña }}
+							<i class="material-icons">create</i>
+						</form>
+						<form>
+							<h4>Lugar de Recidencia</h4>
+							{{ actualUser.LugarResidencia }}
+							<i class="material-icons">create</i>
+						</form>		
 						<button @click="logout()"> Cerrar sesion </button>
-					</ul>
+						<a href="javascript:void(0)" @click="deleteUser(actualUser)">
+							Eliminar Usuario
+						</a>
+					
 			</div>
 		</div>
 	</div>
-
-	 <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
 	<script src="assets/js/vue.js"></script>
 	<script src="assets/js/sesion.js"></script>
 </body>
